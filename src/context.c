@@ -2133,6 +2133,9 @@ getdns_context_prepare_for_resolution(struct getdns_context *context,
 #endif
 			if(context->tls_ctx == NULL)
 				return GETDNS_RETURN_BAD_CONTEXT;
+			SSL_CTX_set_verify(context->tls_ctx, SSL_VERIFY_PEER, NULL);
+			if (!SSL_CTX_set_default_verify_paths(context->tls_ctx))
+				return GETDNS_RETURN_BAD_CONTEXT;
 		}
 	}
 	/* Block use of STARTTLS/TLS ONLY in recursive mode as it won't work */
