@@ -56,7 +56,6 @@ ipaddr_dict(getdns_context *context, char *ipstr)
 	char *s = strchr(ipstr, '%'), *scope_id_str = "";
 	char *p = strchr(ipstr, '@'), *portstr = "";
 	char *t = strchr(ipstr, '#'), *tls_portstr = "";
-	/*TODO: Must allow BOTH port and name*/
 	char *n = strchr(ipstr, '~'), *tls_namestr = "";
 	uint8_t buf[sizeof(struct in6_addr)];
 	getdns_bindata addr;
