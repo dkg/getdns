@@ -1665,6 +1665,7 @@ getdns_context_set_upstream_recursive_servers(struct getdns_context *context,
 		getdns_dict *dict;
 		getdns_bindata *address_type;
 		getdns_bindata *address_data;
+		getdns_bindata *tls_auth_name;
 		struct sockaddr_storage  addr;
 
 		getdns_bindata *scope_id;
@@ -1716,8 +1717,17 @@ getdns_context_set_upstream_recursive_servers(struct getdns_context *context,
 
 			if (getdns_upstream_transports[j] != GETDNS_TRANSPORT_TLS)
 				(void) getdns_dict_get_int(dict, "port", &port);
-			else
+			else {
 				(void) getdns_dict_get_int(dict, "tls_port", &port);
+				if ((r = getdns_dict_get_bindata(
+					dict, "tls_auth_name", &tls_auth_name)) == GETDNS_RETURN_GOOD) {
+						/*TODO: VALIDATE THIS STRING!*/
+					memcpy(upstream->tls_auth_name,
+					       (char *)tls_auth_name->data,
+						tls_auth_name->size);
+					upstream->tls_auth_name[tls_auth_name->size] = '\0';
+				}
+			}
 			(void) snprintf(portstr, 1024, "%d", (int)port);
 
 			if (getaddrinfo(addrstr, portstr, &hints, &ai))
