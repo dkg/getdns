@@ -605,6 +605,7 @@ upstream_init(getdns_upstream *upstream,
 	upstream->starttls_req = NULL;
 	upstream->transport = GETDNS_TRANSPORT_TCP;
 	upstream->tls_hs_state = GETDNS_HS_NONE;
+	upstream->tls_auth_name[0] = '\0';
 	upstream->tcp.write_error = 0;
 	upstream->loop = NULL;
 	(void) getdns_eventloop_event_init(
@@ -1216,6 +1217,8 @@ getdns_set_base_dns_transports(
 	if (!context || transport_count == 0 || transports == NULL)
 		return GETDNS_RETURN_INVALID_PARAMETER;
 
+	/* TODO: restrict the use of each transport to once ->
+	   sane list and correct max size for array*/
 	for(i=0; i<transport_count; i++)
 	{
 		if( transports[i] != GETDNS_TRANSPORT_UDP
