@@ -101,6 +101,8 @@ typedef struct getdns_upstream {
 	getdns_eventloop_event   event;
 	getdns_eventloop        *loop;
 	getdns_tcp_state         tcp;
+	char                     tls_auth_name[GETDNS_MAX_DNAME_LEN + 1];
+	
 
 	/* Pipelining of TCP network requests */
 	getdns_network_req      *write_queue;
